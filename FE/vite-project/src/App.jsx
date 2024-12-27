@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-
+import { Link } from "react-router-dom";
 function App() {
   const [data, setData] = useState([]);
   const [form, setFormData] = useState({});
@@ -67,12 +67,12 @@ function App() {
                     {item.name}
                   </th>
                   <td className="px-6 py-4">
-                    <a
-                      href="#"
+                    <Link
+                      to={`/edit/${item.id}`}
                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                     >
                       Edit
-                    </a>
+                    </Link>
                   </td>
                   <td
                     className="px-6 py-4"

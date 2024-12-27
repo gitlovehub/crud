@@ -1,7 +1,8 @@
-import React, { useParams } from "react";
-
+import React from "react";
+import { useParams } from "react-router-dom";
 const Edit = () => {
   const { id } = useParams();
+  console.log(id)
   useEffect(() => {
     (async () => {
       const res = await (
