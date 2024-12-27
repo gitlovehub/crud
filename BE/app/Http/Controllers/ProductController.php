@@ -44,7 +44,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $product->find($product->id);
+        return view('',compact('product'));
     }
 
     /**
@@ -52,7 +53,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        
+        $data = $request->all();
+
+        $product->update($data);
+        return redirect()->back()->with('messageUpdate', 'Cập nhật dữ liệu thành công');
     }
 
     /**
