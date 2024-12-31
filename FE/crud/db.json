@@ -1,31 +1,22 @@
-Resources
-http://localhost:3000/products
-http://localhost:3000/users
-
-Home
-http://localhost:3000
-
-Type s + enter at any time to create a snapshot of the database
-Watching...
-
-Some error occurred Error: listen EADDRINUSE: address already in use ::1:3000
-  at Server.setupListenHandle [as _listen2] (node:net:1898:16)
-  at listenInCluster (node:net:1946:12)
-  at GetAddrInfoReqWrap.doListen [as callback] (node:net:2116:7)
-Some error occurred Error: listen EADDRINUSE: address already in use ::1:3000
-  at Server.setupListenHandle [as _listen2] (node:net:1898:16)
-  at listenInCluster (node:net:1946:12)
-  at GetAddrInfoReqWrap.doListen [as callback] (node:net:2116:7)
-  at Server.setupListenHandle [as _listen2] (node:net:1898:16)
-  at listenInCluster (node:net:1946:12)
-  at GetAddrInfoReqWrap.doListen [as callback] (node:net:2116:7)
-  at listenInCluster (node:net:1946:12)
-  at GetAddrInfoReqWrap.doListen [as callback] (node:net:2116:7)
-  at GetAddrInfoReqWrap.doListen [as callback] (node:net:2116:7)
-  at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:111:8) {
-code: 'EADDRINUSE',
-errno: -4091,
-syscall: 'listen',
-address: '::1',
-port: 3000
+{
+  "products": [
+    {
+      "name": "Quần12121",
+      "price": 50000,
+      "description": "Mô tả quần",
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Người dùng 1",
+      "email": "user1@example.com"
+    },
+    {
+      "id": 2,
+      "name": "Người dùng 2",
+      "email": "user2@example.com"
+    }
+  ]
 }

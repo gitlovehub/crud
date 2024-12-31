@@ -9,7 +9,7 @@ const Products = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const responsive = await axios.get("http://localhost:3000/products");
+      const responsive = await axios.get(`http://localhost:3000/products`);
       return responsive.data.map((product, index) => ({
         key: product.id,
         id: index + 1,
