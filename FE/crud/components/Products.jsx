@@ -9,8 +9,9 @@ const Products = () => {
   const { data, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
-      const responsive = await axios.get(`http://localhost:3000/products`);
-      return responsive.data.map((product, index) => ({
+      const responsive = await axios.get(`http://127.0.0.1:8000/api/products/`);
+      console.log(responsive)
+      return responsive.data.data.map((product, index) => ({
         key: product.id,
         id: index + 1,
         ...product,
@@ -21,7 +22,7 @@ const Products = () => {
   const { mutate } = useMutation({
     mutationFn: async (id) => {
       const responsive = await axios.delete(
-        `http://localhost:3000/products/${id}`
+        `http://127.0.0.1:8000/api/products/${id}`
       );
       return responsive.data;
     },
@@ -38,9 +39,9 @@ const Products = () => {
 
   const columns = [
     { title: "Id", dataIndex: "id", key: "id" },
-    { title: "Title", dataIndex: "name", key: "name" },
-    { title: "Price", dataIndex: "price", key: "price" },
-    { title: "Image", dataIndex: "imageUrl", key: "imageUrl" },
+    { title: "Title", dataIndex: "product_name", key: "product_name" },
+    { title: "Price", dataIndex: "product_price", key: "product_price" },
+    { title: "Image", dataIndex: "product_thumbnail", key: "product_thumbnail" },
     { title: "Description", dataIndex: "description", key: "description" },
     {
       key: "Action",
@@ -76,6 +77,7 @@ const Products = () => {
     nav(`/admin/products/add`);
   };
   if (isLoading) return <Skeleton active />;
+  console.log(data);
   return (
     <>
       {contextHolder}

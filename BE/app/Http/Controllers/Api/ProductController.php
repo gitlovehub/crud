@@ -15,7 +15,20 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $products = Product::all();
+
+            return response()->json([
+                'message' => 'Success',
+                'data' => $products
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Failed'
+            ]);
+        }
+
+
     }
 
     /**
@@ -29,9 +42,20 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
+        try {
+            // $product = Product::findOrFail($product);
 
+            return response()->json([
+                'message' => 'success',
+                'data' => $product
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'failed',
+            ]);
+        }
     }
 
     /**

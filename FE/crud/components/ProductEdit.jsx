@@ -14,8 +14,9 @@ const ProductAdd = () => {
     queryKey: ["products, id"],
     queryFn: async () => {
       const responsive = await axios.get(
-        `http://localhost:3000/products/${id}`
+        `http://127.0.0.1:8000/api/products/${id}`
       );
+      console.log(responsive)
       return responsive.data;
     },
   });
@@ -27,7 +28,7 @@ const ProductAdd = () => {
   }, [data]);
   const { mutate, isPending } = useMutation({
     mutationFn: async (product) => {
-      await axios.put(`http://localhost:3000/products/${id}`, product);
+      await axios.put(`http://127.0.0.1:8000/api/products/${id}`, product);
     },
     onSuccess: () => {
       messageApi.open({
@@ -53,6 +54,8 @@ const ProductAdd = () => {
   };
 
   if (isLoading) return <Skeleton active />;
+
+  console.log(data)
   return (
     <>
       {contextHolder}
@@ -63,11 +66,12 @@ const ProductAdd = () => {
         style={{ maxWidth: 600 }}
         disabled={isPending}
         onFinish={onFinish}
-        initialValues={data}
+        initialValues={data.data}
+
       >
         <Form.Item
           label="Tên sản phẩm"
-          name="name"
+          name="product_name"
           rules={[
             { required: true, message: "Trường này là bắt buộc " },
             { min: 3, message: "Không dưới 3 ký tự" },
@@ -77,7 +81,7 @@ const ProductAdd = () => {
         </Form.Item>
         <Form.Item
           label="Giá sản phẩm"
-          name="price"
+          name="product_price"
           rules={[
             { required: true, message: "Trường này là bắt buộc " },
             { type: "number", min: 0, message: "Không nhập giá trị âm" },
