@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "name": "Quần12121",
+      "price": 50000,
+      "description": "Mô tả quần",
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Người dùng 1",
+      "email": "user1@example.com"
+    },
+    {
+      "id": 2,
+      "name": "Người dùng 2",
+      "email": "user2@example.com"
+    }
+  ]
+}

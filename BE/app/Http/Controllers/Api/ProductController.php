@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -20,28 +21,9 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Product $product)
+    public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'product_name' => 'required|string|max:255',
-            'product_thumbnail' => 'nullable|image', 
-            'product_price' => 'required|numeric|min:0',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
-
-        $data = $request->except('product_thumbnail');
-
-        if ($request->hasFile('product_thumbnail')) {
-            $path_product_thumbnail = $request->file('product_thumbnail')->store('product_thumbnails');
-            $data['product_thumbnail'] =  $path_product_thumbnail;
-        }
-
-        $product = Product::create($data); 
-
-        return response()->json($product, 201);
+        //
     }
 
     /**
@@ -49,15 +31,59 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $data = $request->except('product_thumbnail');
+
+        $validator = Validator::make($data, [
+            'product_name' => ['required', 'string', 'max:255'],
+            'product_thumbnail' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
+            'product_price' => ['required', 'numeric', 'min:0']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'message' => 'Failed',
+                    'errors' => $validator->errors()
+                ],
+                422
+            );
+        }
+
+        try {
+
+            $product = Product::query()->findOrFail($product->id);
+
+            $path = '';
+
+            if ($request->hasFile('product_thumbnail')) {
+
+                $path = $request->file('product_thumbnail')->store('product_thumbnails');
+                $data['product_thumbnail'] = $path;
+                Storage::delete($product->product_thumbnail);
+
+            } else {
+                $data['product_thumbnail'] = $product->product_thumbnail;
+            }
+
+            $product->update($data);
+
+            return response()->json([
+                'message' => 'Cập nhật dữ liệu thành công',
+                'products' => $product
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Cập nhật dữ liệu thất bại',
+            ], 500);
+        }
     }
 
     /**
@@ -65,6 +91,14 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully'], 200);
     }
 }
